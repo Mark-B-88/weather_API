@@ -1,22 +1,99 @@
-/* Global Variables */
-const apiKey = `2366e92eb251669bc8d3ad22e6fa4945
-&units=imperial`;
+const apiKey = `2366e92eb251669bc8d3ad22e6fa4945&units=imperial`;
+const apiUrl = `http://api.openweathermap.org/data/2.5/weather?zip=`;
 
-// DOM Variables
-const zipCode = document.getElementById('zip');
-const feelings = document.getElementById('feelings');
-const btnSubmit = document.getElementById('generate');
 
-// Callback Functions
-const generateData = () => {
-    // this is for testing only, replace this later for actual use
-    console.log('button clicked!');
+const getWeather = async (url) => {
+    let res = await fetch(url);
+
+    try {
+        let data = await res.json();
+        return data;
+    } catch (err) {
+        console.log(`Error : ${err}`)
+    }
+}
+
+const handleData = async () => {
+    const zipCode = document.getElementById('zip').value;
+    const content = document.getElementById('feelings').value;
+    const url = `${apiUrl}${zipCode}&APPID=${apiKey}`;
+
+    if (zip.length === 0 || content.length === 0) {
+        alert(`Please enter a valid zip code and also your feelings :-)`);
+        return
+    }
+
+    let weatherInfo = await getWeather(url);
+    let temp = weatherInfo.main.temp;
+
+    // Create a new date instance dynamically with JS
+    let d = new Date();
+
+    // let date = d.getDate() + '.'+ (d.getMonth() + 1 )+ '.' + d.getFullYear();
+    let date = `${(d.getMonth() + 1 )} / ${d.getDate()} / ${d.getFullYear()}`;
+
+    const data = {
+        date: date,
+        temp: temp,
+        content: content,
+    }
+
+    // Post the data to owr own server
+    await postData("http://localhost:3000/projectData", data);
+
+    // Update the UI
+    updateUI();
+    
+    // Clear the form fields
+    clearFields();
+}
+
+
+const updateUI = async () => {
+    const dateTag = document.getElementById('date');
+    const tempTag = document.getElementById('temp');
+    const contentTag = document.getElementById('content');
+
+    // Get data from owr own server
+    let UI_Data = await getData(`http://localhost:3000/projectData`);
+
+    // Update the UI
+    dateTag.innerText = `Date : ${UI_Data.date}`;
+    tempTag.innerText = `Temperature : ${UI_Data.temp}° farenheit`;
+    contentTag.innerText = `${UI_Data.content}`;
+}
+
+const clearFields = () => {
+    const textField = document.getElementById('feelings');
+    const zipCode = document.getElementById('zip');
+
+    textField.value = '';
+    zipCode.value = '';
 };
-generateData();
 
-// Event Listeners
-btnSubmit.addEventListener('click', generateData);
+async function postData(url,data) {
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    return await res.json(); 
+}
 
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+const getData = async (url) => {
+    let res = await fetch(url);
+
+    try {
+        let data = res.json();
+        console.log(data);
+        
+        return data;
+    } catch(err){
+        console.log(err);
+    }
+}
+
+const generateButton = document.querySelector('#generate');
+generateButton.addEventListener('click', handleData);

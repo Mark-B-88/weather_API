@@ -1,47 +1,51 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {
-    name : 'john doe'
-};
+let projectData = {};
 
 // Require Express to run server and routes
+const http = require('http');
 const express = require('express');
-
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const cors = require('cors');
+// 
 // Start up an instance of app
 const app = express();
 
 /* Middleware*/
 
-//  Configure Express to use body-parser as middle-ware.
-const bodyParser = require('body-parser');
-
+// configure express to use body-parser as middle-ware.
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Cors for cross origin allowance
-const cors = require('cors');
 app.use(cors());
 
 // Initialize the main project folder
 app.use(express.static('website'));
 
+app.get('/projectData', (req, res) => {
+    // Send projectData as response
+    res.status(200).send(projectData);
+});
+
+app.post('/projectData', (req, res) => {
+    // save data in a variable
+    projectData = {
+        date: req.body.date,
+        temp: req.body.temp,
+        content: req.body.content
+    };
+    res.status(200).send({
+        sucess: true,
+        message: `The data was saved succesfully!`,
+        data: projectData
+    });
+})
 
 // Setup Server
-const port = process.env.port || 3000;
+const port = 3000;
+// const hostname = 'localhost';
+const server = http.createServer(app);
 
-app.listen(port, () => {
-    try {
-        console.log(`Server is running on port : ${port}`);
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-// Routes
-
-app.get('/all', (req,res) => {
-    res.send(projectData);
-});
-
-app.post('/all', (req,res) => {
-    res.send(projectData);
-});
+server.listen(port, () => console.log(`Server is running on port : ${port}`));
