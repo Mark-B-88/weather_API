@@ -59,7 +59,7 @@ const updateUI = async () => {
 
     // Update the UI
     dateTag.innerHTML = `<p>Date : ${UI_Data.date}</p>`;
-    tempTag.innerHTML = `<p>Temperature : ${UI_Data.temp}° farenheit</p>`;
+    tempTag.innerHTML = `<p>Temperature : ${Math.round(UI_Data.temp)}° degrees farenheit</p>`;
     contentTag.innerHTML = `<p>${UI_Data.content}</p>`;
 }
 
