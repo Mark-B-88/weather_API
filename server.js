@@ -7,7 +7,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
-// 
+
 // Start up an instance of app
 const app = express();
 
@@ -25,7 +25,6 @@ app.use(cors());
 app.use(express.static('website'));
 
 app.get('/projectData', (req, res) => {
-    // Send projectData as response
     res.status(200).send(projectData);
 });
 
@@ -45,7 +44,6 @@ app.post('/projectData', (req, res) => {
 
 // Setup Server
 const port = 3000;
-// const hostname = 'localhost';
 const server = http.createServer(app);
 
 server.listen(port, () => console.log(`Server is running on port : ${port}`));

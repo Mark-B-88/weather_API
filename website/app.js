@@ -54,13 +54,13 @@ const updateUI = async () => {
     const tempTag = document.getElementById('temp');
     const contentTag = document.getElementById('content');
 
-    // Get data from owr own server
+    // Get data from server
     let UI_Data = await getData(`http://localhost:3000/projectData`);
 
     // Update the UI
-    dateTag.innerText = `Date : ${UI_Data.date}`;
-    tempTag.innerText = `Temperature : ${UI_Data.temp}° farenheit`;
-    contentTag.innerText = `${UI_Data.content}`;
+    dateTag.innerHTML = `<p>Date : ${UI_Data.date}</p>`;
+    tempTag.innerHTML = `<p>Temperature : ${UI_Data.temp}° farenheit</p>`;
+    contentTag.innerHTML = `<p>${UI_Data.content}</p>`;
 }
 
 const clearFields = () => {
