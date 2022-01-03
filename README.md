@@ -16,7 +16,7 @@ npm i
 Once you create an account, you can create an .env file on the root folder and add your API_KEY there.
 
 ```bash
-API_KEY = '<enter api key here';
+API_KEY = '<API_KEY>&units=imperial'
 ```
 
 # Run the server

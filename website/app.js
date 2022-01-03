@@ -1,6 +1,5 @@
-const apiKey = process.env.API_KEY;
+const apiKey = `process.env.API_KEY`;
 const apiUrl = `http://api.openweathermap.org/data/2.5/weather?zip=`;
-
 
 const getWeather = async (url) => {
     let res = await fetch(url);
