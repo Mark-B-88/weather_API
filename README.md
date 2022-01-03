@@ -7,6 +7,17 @@ As part of Udacity's Front End Developer Nano-Degree Certification Program, this
 ```bash
 npm i
 ```
+# Create an account with OpenWeatherMap.org
+
+[Sign up](https://home.openweathermap.org/users/sign_up)
+
+# Create an .env file in the root folder
+
+Once you create an account, you can create an .env file on the root folder and add your API_KEY there.
+
+```bash
+API_KEY = '<enter api key here';
+```
 
 # Run the server
 
