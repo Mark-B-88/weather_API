@@ -1,4 +1,4 @@
-const apiKey = `2366e92eb251669bc8d3ad22e6fa4945&units=imperial`;
+const apiKey = process.env.API_KEY;
 const apiUrl = `http://api.openweathermap.org/data/2.5/weather?zip=`;
 
 
